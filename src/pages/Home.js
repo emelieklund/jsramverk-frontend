@@ -1,56 +1,44 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import './Home.css';
 import FormAddDoc from './FormAddDoc.js';
-import Doc from './Doc.js';
 
 function Home() {
     // documents is a state variable (needed to retain the data between renders)
     // setDocuments is a setter function (needed to update the variable and trigger React to render the component again)
-    const [documents, setDocuments] = useState([{
-        id: "",
-        title: "",
-        content: "",
-    }])
+    const [documents, setDocuments] = useState([]);
 
-    // catch data from backend
+    const getDocuments = () => {
+        fetch("http://localhost:1337")
+        .then(res => res.json())
+        .then(json => setDocuments(json))
+    }
+
     useEffect(() => {
-        axios.get('http://localhost:1337')
-            .then(response => setDocuments(response.data))
-            .catch(error => console.error(error));
+        getDocuments();
     }, [])
 
     // handle delete function
     const handleDelete = (id) => {
         axios.delete(`http://localhost:1337/${id}`);
-    }
 
-    const handleLink = async (id, e) => {
-        //const data = await axios.get(`http://localhost:1337/${id}`);
-        <Route path="/:id" element={<Doc id={id} />} />
+        //window.location.reload(false);
     }
-
-    const listItems = documents.map(item => (
-        <li key={item._id}>
-            <a onClick={() => handleLink(item._id)}>
-                <h3>{item.title}</h3>
-            </a>
-            <p>ID: {item._id}</p>
-            <p>Content: {item.content}</p>
-            <button onClick={() => handleDelete(item._id)} className="deleteButton">Delete</button>
-            <hr />
-        </li>
-    ));
 
     return (
         <div className="App">
-            <h2>Skapa nytt dokument</h2>
+            <h2>Create a new document</h2>
             <FormAddDoc />
-            <h2>Dokument</h2>
-            <ul>
-                {listItems}
-            </ul>
+            <h2>Documents</h2>
+            {documents.map((data) => {
+                return <>
+                    <h3><Link to={`/doc?id=${data._id}`} >{data.title}</Link></h3>
+                    <p>{data.content}</p>
+                    <button onClick={() => handleDelete(data._id)} className="deleteButton">Delete</button>
+                    <hr />
+                </>
+            })}
         </div>
     );
 }

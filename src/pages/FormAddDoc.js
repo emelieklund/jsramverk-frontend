@@ -7,30 +7,35 @@ function FormAddDoc() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        axios.post('http://localhost:1337', {
+        await axios.post('http://localhost:1337', {
             title: title,
             content: content
-        })
+        });
+
+        // Refresh page
+        window.location.reload(false);
     }
 
     return (
         <form onSubmit={handleSubmit}>
-            <p>Titel:</p>
+            <p>Title:</p>
             <input
                 type="text"
                 name="title"
+                placeholder="Title"
                 onChange={(e) => {setTitle(e.target.value)}}
             />
 
-            <p>Innehåll:</p>
+            <p>Content:</p>
             <textarea
                 name="content"
+                placeholder="Content..."
                 onChange={(e) => {setContent(e.target.value)}}
             />
-            <input type="submit" value="Spara" />
+            <input type="submit" value="Submit" />
         </form>
     );
 }
