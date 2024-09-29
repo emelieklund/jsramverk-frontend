@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import './FormAddDoc.css';
+import './Doc.css';
 import { useSearchParams } from 'react-router-dom';
 
 function Doc() {
+    // Get id from query
     const [queryParameters] = useSearchParams();
     const id = queryParameters.get("id");
 
@@ -13,7 +14,7 @@ function Doc() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
-    // catch data from backend
+    // Fetch data from backend
     const getDocuments = async () => {
         await fetch(`http://localhost:1337/${id}`)
         .then(res => res.json())
@@ -31,6 +32,7 @@ function Doc() {
         setContent(documents.content);
     }, [documents])
 
+    // Submit updated data to backend
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -41,6 +43,15 @@ function Doc() {
         });
 
         window.location.reload(false);
+    }
+
+    // Delete from backend
+    const handleDelete = async (id, e) => {
+        e.preventDefault();
+
+        await axios.post(`http://localhost:1337/delete/${id}`);
+
+        window.location.href = "/";
     }
 
     return (
@@ -60,6 +71,8 @@ function Doc() {
                 onChange={(e) => {setContent(e.target.value)}}
             />
             <input type="submit" value="Update" />
+            <button onClick={(e) => handleDelete(id, e)} className="deleteButton">Delete</button>
+
         </form>
     );
 }

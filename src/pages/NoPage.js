@@ -3,7 +3,7 @@ import React from 'react';
 const NoPage = () => {
     return (
         <>
-            <p>Error</p>
+            <p>Site doesn't exist</p>
         </>
     )
 };
