@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import { useState } from 'react';
-import './FormAddDoc.css';
+import '../style/FormAddDoc.css';
 
 function FormAddDoc() {
     const [title, setTitle] = useState("");

@@ -1,10 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-
 import FormAddDoc from './FormAddDoc.js';
-
-import './Home.css';
+import '../style/Home.css';
 
 function Home() {
     // documents is a state variable (needed to retain the data between renders)
