@@ -4,7 +4,7 @@ import './style/Header.css';
 function Header() {
     return (
         <header>
-            <h1>SSR Editor</h1>
+            <a href="/"><h1>SSR Editor</h1></a>
         </header>
     );
 }
