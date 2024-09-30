@@ -1,36 +1,38 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import './Doc.css';
 import { useSearchParams } from 'react-router-dom';
+import '../style/Doc.css';
 
 function Doc() {
     // Get id from query
     const [queryParameters] = useSearchParams();
     const id = queryParameters.get("id");
 
-    const [documents, setDocuments] = useState([]);
+    const [document, setDocument] = useState([]);
 
     // title and content, used when updating document
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
     // Fetch data from backend
-    const getDocuments = async () => {
-        await fetch(`http://localhost:1337/${id}`)
+    const getDocument = () => {
+        fetch(`http://localhost:1337/${id}`)
         .then(res => res.json())
-        .then(json => setDocuments(json))
+        .then(json => setDocument(json))
         .catch(error => console.error(error));
     }
 
     useEffect(() => {
-        getDocuments();
+        getDocument();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // Update title and content when "documents" is changed
+    // Update title and content when "document" is changed
     useEffect(() => {
-        setTitle(documents.title);
-        setContent(documents.content);
-    }, [documents])
+        setTitle(document.title);
+        setContent(document.content);
+    }, [document])
 
     // Submit updated data to backend
     const handleSubmit = (e) => {
@@ -60,14 +62,14 @@ function Doc() {
             <input
                 type="text"
                 name="title"
-                defaultValue={documents.title}
+                defaultValue={document.title}
                 onChange={(e) => {setTitle(e.target.value)}}
             />
 
             <p>Content:</p>
             <textarea
                 name="content"
-                defaultValue={documents.content}
+                defaultValue={document.content}
                 onChange={(e) => {setContent(e.target.value)}}
             />
             <input type="submit" value="Update" />
