@@ -1,7 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import '../style/Doc.css';
+
+//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net/posts";
+const AZURE="http://localhost:1337";
 
 function Doc() {
     // Get id from query
@@ -16,7 +19,7 @@ function Doc() {
 
     // Fetch data from backend
     const getDocument = () => {
-        fetch(`http://localhost:1337/${id}`)
+        fetch(`${AZURE}/${id}`)
         .then(res => res.json())
         .then(json => setDocument(json))
         .catch(error => console.error(error));
@@ -25,7 +28,7 @@ function Doc() {
     useEffect(() => {
         getDocument();
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line
     }, []);
 
     // Update title and content when "document" is changed
@@ -38,8 +41,8 @@ function Doc() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        axios.post('http://localhost:1337/update', {
-            id: id,
+        axios.post(`${AZURE}/update`, {
+            _id: id,
             title: title,
             content: content
         });
@@ -47,34 +50,37 @@ function Doc() {
         window.location.reload(false);
     }
 
+    const navigate = useNavigate();
+
     // Delete from backend
     const handleDelete = async (id, e) => {
         e.preventDefault();
 
-        await axios.post(`http://localhost:1337/delete/${id}`);
+        await axios.post(`${AZURE}/delete/${id}`);
 
-        window.location.href = "/";
+        navigate("/");
     }
 
     return (
         <form onSubmit={handleSubmit}>
-            <p>Title:</p>
+            <label htmlFor="title-input">Title:</label>
             <input
+                id="title-input"
                 type="text"
                 name="title"
                 defaultValue={document.title}
                 onChange={(e) => {setTitle(e.target.value)}}
             />
 
-            <p>Content:</p>
+            <label htmlFor="content-input">Content:</label>
             <textarea
+                id="content-input"
                 name="content"
                 defaultValue={document.content}
                 onChange={(e) => {setContent(e.target.value)}}
             />
             <input type="submit" value="Update" />
             <button onClick={(e) => handleDelete(id, e)} className="deleteButton">Delete</button>
-
         </form>
     );
 }

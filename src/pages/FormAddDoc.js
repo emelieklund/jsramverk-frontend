@@ -3,6 +3,9 @@ import React from 'react';
 import { useState } from 'react';
 import '../style/FormAddDoc.css';
 
+//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net/posts";
+const AZURE="http://localhost:1337";
+
 function FormAddDoc() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -10,7 +13,7 @@ function FormAddDoc() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        await axios.post('http://localhost:1337', {
+        await axios.post(AZURE, {
             title: title,
             content: content
         });
@@ -21,16 +24,18 @@ function FormAddDoc() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <p>Title:</p>
+            <label htmlFor="title-input">Title:</label>
             <input
+                id="title-input"
                 type="text"
                 name="title"
                 placeholder="Title"
                 onChange={(e) => {setTitle(e.target.value)}}
             />
 
-            <p>Content:</p>
+            <label htmlFor="content-input">Content:</label>
             <textarea
+                id="content-input"
                 name="content"
                 placeholder="Content..."
                 onChange={(e) => {setContent(e.target.value)}}

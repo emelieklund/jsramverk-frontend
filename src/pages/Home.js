@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import FormAddDoc from './FormAddDoc.js';
 import '../style/Home.css';
 
+//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net/posts";
+const AZURE="http://localhost:1337";
+
 function Home() {
     // documents is a state variable (needed to retain the data between renders)
     // setDocuments is a setter function (needed to update the variable and trigger React to render the component again)
@@ -11,7 +14,7 @@ function Home() {
 
     // Fetch data from backend
     const getDocuments = () => {
-        fetch("http://localhost:1337")
+        fetch(AZURE)
         .then(res => res.json())
         .then(json => setDocuments(json))
     }
@@ -22,7 +25,7 @@ function Home() {
 
     // Delete from backend
     const handleDelete = async (id) => {
-        await axios.post(`http://localhost:1337/delete/${id}`);
+        await axios.post(`${AZURE}/delete/${id}`);
 
         window.location.reload(false);
     }

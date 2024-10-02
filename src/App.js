@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import Doc from './pages/Doc.js';
 import Home from './pages/Home.js';
 import NoPage from './pages/NoPage.js';
