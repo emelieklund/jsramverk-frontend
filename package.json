@@ -15,7 +15,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-dotenv && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!my-app)/\" --env=jsdom ",
     "coverage": "react-scripts test --transformIgnorePatterns \"node_modules/(?!my-app)/\" --env=jsdom --coverage",
