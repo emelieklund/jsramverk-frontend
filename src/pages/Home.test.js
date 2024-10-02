@@ -10,10 +10,10 @@ afterEach(() => {
     cleanup();
 });
 
-test('expect label element "title-input" to be in document', () => {
-    const labelElement = screen.getByLabelText(/title/i);
+test('expect h2 element to be in document', () => {
+    const h2Element = screen.getByText(/create a new document/i);
 
-    expect(labelElement).toBeInTheDocument();
+    expect(h2Element).toBeInTheDocument();
 });
 
 // test('title variable gets value', async () => {
