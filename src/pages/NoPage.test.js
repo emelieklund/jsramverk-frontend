@@ -3,5 +3,7 @@ import NoPage from './NoPage';
 
 test("should render 'Page doesn't exist'", () => {
     render(<NoPage />);
-    expect(true).toBe(true);
+    const pElement = screen.getByText(/Site doesn't exist/i);
+
+    expect(pElement).toBeInTheDocument();
 });
