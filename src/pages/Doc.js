@@ -1,19 +1,18 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import '../style/Doc.css';
 
-//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net/posts";
-const AZURE="http://localhost:1337";
+const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net/posts";
 
 function Doc() {
-    // Get id from query
-    const [queryParameters] = useSearchParams();
-    const id = queryParameters.get("id");
+    // Get id from parameter
+    const params = useParams();
+    const id = params.id;
 
     const [document, setDocument] = useState([]);
 
-    // title and content, used when updating document
+    // Title and content, used when updating document
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
@@ -38,10 +37,10 @@ function Doc() {
     }, [document])
 
     // Submit updated data to backend
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        axios.post(`${AZURE}/update`, {
+        await axios.post(`${AZURE}/update`, {
             _id: id,
             title: title,
             content: content
@@ -50,21 +49,20 @@ function Doc() {
         window.location.reload(false);
     }
 
-    const navigate = useNavigate();
-
     // Delete from backend
     const handleDelete = async (id, e) => {
         e.preventDefault();
 
         await axios.post(`${AZURE}/delete/${id}`);
 
-        navigate("/");
+        window.location.href = "/#";
     }
 
     return (
         <form onSubmit={handleSubmit}>
             <label htmlFor="title-input">Title:</label>
             <input
+                data-testid="title-input"
                 id="title-input"
                 type="text"
                 name="title"
@@ -80,7 +78,7 @@ function Doc() {
                 onChange={(e) => {setContent(e.target.value)}}
             />
             <input type="submit" value="Update" />
-            <button onClick={(e) => handleDelete(id, e)} className="deleteButton">Delete</button>
+            <button onClick={(e) => handleDelete(id, e)} className="deleteButton" data-testid="delete-button" >Delete</button>
         </form>
     );
 }

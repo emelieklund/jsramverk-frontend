@@ -10,7 +10,7 @@ function App() {
         <HashRouter>
             <Routes>
                 <Route index element={<Home />} />
-                <Route path="/doc" element={<Doc />} />
+                <Route path="/doc/:id" element={<Doc />} />
                 <Route path="*" element={<NoPage />} />
             </Routes>
         </HashRouter>

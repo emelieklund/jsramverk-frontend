@@ -20,7 +20,7 @@
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!my-app)/\" --env=jsdom --watchAll",
     "coverage": "react-scripts test --transformIgnorePatterns \"node_modules/(?!my-app)/\" --env=jsdom --coverage",
     "eject": "react-scripts eject",
-    "eslint": "eslint . --ignore-pattern 'build/static/js/main.73784114.js'",
+    "eslint": "eslint .",
     "deploy": "npm run build && rsync -av --delete build/ emek22@ssh.student.bth.se:www/editor"
   },
   "eslintConfig": {
