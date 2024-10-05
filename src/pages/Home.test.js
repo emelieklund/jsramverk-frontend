@@ -20,3 +20,7 @@ test('expect div with test-id "doc-div" to be in document', () => {
 
     expect(docDiv).toBeInTheDocument();
 });
+
+test('temporary', () => {
+    expect(true).toBe(true);
+});
