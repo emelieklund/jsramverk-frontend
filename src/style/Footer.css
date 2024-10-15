@@ -3,4 +3,5 @@ footer {
   color: #fff;
   padding: 1.4rem 8rem;
   flex-shrink: 0;
+  height: 200px;
 }

@@ -3,7 +3,8 @@ import React from 'react';
 import { useState } from 'react';
 import '../style/FormAddDoc.css';
 
-const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net/posts";
+//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net/posts";
+const AZURE="http://localhost:1337";
 
 function FormAddDoc() {
     const [title, setTitle] = useState("");
