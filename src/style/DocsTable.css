@@ -1,0 +1,31 @@
+.table-div {
+  background-color: #ffffff;
+  padding: 50px;
+  width: 100%;
+}
+
+.table {
+  background-color: #ffffff;
+  padding: 50px;
+}
+
+.row:hover {
+  background-color: #F2F2F2;
+}
+
+#trash-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  color: #444444
+}
+
+#trash-icon:hover {
+  color: red;
+}
+
+#file-icon {
+  width: 20px;
+  height: 20px;
+  color: #444444;
+}
