@@ -1,0 +1,51 @@
+.code-div {
+  min-height: 90vh;
+  background-color: #0f0a19;
+  color: #8d8d8d;
+  padding: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.editor {
+  margin-top: 3vh;
+  width: 45vw;
+  height: 75vh;
+}
+
+.input-div {
+  width: 45vw;
+  height: 75vh;
+  justify-content: right;
+}
+
+.output-div {
+  width: 45vw;
+  height: 75vh;
+
+}
+
+.output-window {
+  height: 75vh;
+  border: 1px solid #333;
+  border-radius: 4px;
+  margin-top: 3vh;
+  padding-left: 1vh;
+  color: #c1ff8f;
+  font-family: "JetBrains Mono",monospace;
+}
+
+#run-button {
+  background:none;
+  border: 1.5px solid #c1ff8f;
+  border-radius: 5px;
+  color: #c1ff8f;
+  font-family: Phantomsans, sans-serif;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1em;
+  text-decoration: none;
+  width: 120px;
+  height: 35px;
+}
