@@ -1,3 +1,11 @@
+#icons-div {
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0;
+}
+
 .icon-div {
   width: 50px;
   padding: 0;

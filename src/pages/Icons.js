@@ -32,68 +32,50 @@ function Icons({documentID, title, content}) {
     }
 
     const handleComment = (e) => {
-        const text = document.getElementById("content-input").value;
-        const rowArray = text.split(".");
+        const textArea = document.getElementById("content-input").value;
+        const rowArray = textArea.split(".");
         console.log(rowArray[1]);
-        
     }
 
+    // Align textarea
     const removeAlignClasses = () => {
-        const text = document.getElementById("content-input");
+        const textArea = document.getElementById("content-input");
         const alignArray = ["align-left", "align-right", "align-center", "align-justify"];
         alignArray.forEach(element => {
-            text.classList.remove(element);
+            textArea.classList.remove(element);
         });
     }
 
-    const handleLeft = () => {
-        const text = document.getElementById("content-input");
+    const handleAlign = (align) => {
         removeAlignClasses();
-        text.classList.add("align-left");
-    }
-
-    const handleRight = () => {
-        const text = document.getElementById("content-input");
-        removeAlignClasses();
-        text.classList.add("align-right");
-    }
-
-    const handleJustify = () => {
-        const text = document.getElementById("content-input");
-        removeAlignClasses();
-        text.classList.add("align-justify");
-    }
-
-    const handleCenter = () => {
-        const text = document.getElementById("content-input");
-        removeAlignClasses();
-        text.classList.add("align-center");
+        const textArea = document.getElementById("content-input");
+        textArea.classList.add(align);
     }
 
     return (
-        <div id="icons-div" >
-            <div className="icon-div" >
-                <FontAwesomeIcon icon={faAlignLeft} className="icon" onClick={(e) => handleLeft()} />
+        <div id="icons-div">
+            <div className="icon-div" onClick={() => handleAlign("align-left")} >
+                <FontAwesomeIcon icon={faAlignLeft} className="icon" />
                 <p>Left</p>
             </div>
-            <div className="icon-div" >
-                <FontAwesomeIcon icon={faAlignRight} className="icon" onClick={(e) => handleRight()} />
+            <div className="icon-div" onClick={() => handleAlign("align-right")} >
+                <FontAwesomeIcon icon={faAlignRight} className="icon" />
                 <p>Right</p>
             </div>
-            <div className="icon-div" >
-                <FontAwesomeIcon icon={faAlignCenter} className="icon" onClick={(e) => handleCenter()} />
+            <div className="icon-div" onClick={() => handleAlign("align-center")} >
+                <FontAwesomeIcon icon={faAlignCenter} className="icon"/>
                 <p>Center</p>
             </div>
-            <div className="icon-div" >
-                <FontAwesomeIcon icon={faAlignJustify} className="icon" onClick={(e) => handleJustify()} />
+            <div className="icon-div" onClick={(e) => handleAlign("align-justify")} >
+                <FontAwesomeIcon icon={faAlignJustify} className="icon" />
                 <p>Justify</p>
             </div>
-            <div className="icon-div" >
-                <FontAwesomeIcon icon={faCommentDots} className="icon" id="comment" onClick={(e) => handleComment(e)}/>
+            <div className="icon-div" onClick={(e) => handleComment(e)} >
+                <FontAwesomeIcon icon={faCommentDots} className="icon" id="comment" />
                 <p>Comment</p>
             </div>
-            <div className="icon-div" >
-                <FontAwesomeIcon icon={faFloppyDisk} className="icon" onClick={(e) => handleSubmit(e)}/>
+            <div className="icon-div" onClick={(e) => handleSubmit(e)} >
+                <FontAwesomeIcon icon={faFloppyDisk} className="icon"/>
                 <p>Save</p>
             </div>
             <div className="icon-div" >

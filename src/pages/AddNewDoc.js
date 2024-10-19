@@ -8,14 +8,13 @@ const AZURE="http://localhost:1337";
 
 function AddNewDoc() {
     const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         await axios.post(AZURE, {
             title: title,
-            content: content
+            content: ""
         });
 
         // Refresh page
@@ -32,6 +31,7 @@ function AddNewDoc() {
                     name="title"
                     placeholder="Title"
                     onChange={(e) => {setTitle(e.target.value)}}
+                    required
                 />
                 <input type="submit" value="Submit" />
             </form>

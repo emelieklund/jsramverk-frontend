@@ -1,37 +1,41 @@
-form {
+/* form {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 100px;
-}
+} */
 
 .doc-div {
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 100px;
+  background-color: #F2F2F2;
 }
 
 .upper-div {
-  width: 45%;
+  width: 620px;
   height: 30px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 10px;
 }
 
 #title-input {
-  width: 45%;
-  background-color: #F2F2F2;
+  width: 100%;
+  background: none;
   border: none;
   font-size: 20px;
 }
 
 #content-input {
   padding: 60px;
-  width: 45%;
-  height: 700px;
+  width: 620px;
+  height: 877px;
   resize: vertical;
   margin: 0;
   display: inline-block;
@@ -43,20 +47,36 @@ form {
   line-height: 1.5em;
 }
 
-#icon-div {
-  width: 80px;
+#icons-div {
+  width: 300px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 0;
 }
 
-.icon {
-  width: 25px;
-  height: 25px;
-  color: #444444;
+.btn {
+  background-image: radial-gradient(100% 100% at 100% 0, #0F0A19 0, #261744 100%);
+  border: 0;
+  border-radius: 6px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;  box-sizing: border-box;
+  color: #fff;
   cursor: pointer;
+  font-family: "JetBrains Mono",monospace;
+  font-size: 16px;
+  height: 48px;
+  line-height: 1;
+  margin: 15px;
+  padding: 16px;
+  text-decoration: none;
+  width: 220px;
 }
 
-.icon:hover {
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+.text-btn {
+  background-image: radial-gradient(100% 100% at 100% 0, #755baa 0, #261744 100%);
+  font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+}
+
+.btn:hover {
+  box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #242424 0 -3px 0 inset;
 }

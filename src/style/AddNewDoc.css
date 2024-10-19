@@ -8,6 +8,7 @@ form {
 .new-doc-div {
   background-color: white;
   width: 250px;
+  height: 350px;
   margin-bottom: 50px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
@@ -47,10 +48,4 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-}
-
-div {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
 }
