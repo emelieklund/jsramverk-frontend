@@ -6,8 +6,6 @@
 } */
 
 .doc-div {
-  padding: 0;
-  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,11 +46,39 @@
 }
 
 #icons-div {
-  width: 300px;
+  width: 320px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 0;
+}
+
+.icon-div {
+  width: 65px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  cursor: pointer;
+
+  p {
+    margin: 3px 0;
+    font-size: 11px;
+    color: #5b5b5b;
+  }
+}
+
+.icon-div:hover {
+  text-decoration: underline;
+  color: #5b5b5b;
+}
+
+.icon {
+  width: 17px;
+  height: 17px;
+  color: #444444;
+  cursor: pointer;
 }
 
 .btn {
@@ -79,4 +105,8 @@
 
 .btn:hover {
   box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #242424 0 -3px 0 inset;
+}
+
+.comment {
+  color: red;
 }

@@ -1,5 +1,6 @@
 .code-div {
   min-height: 90vh;
+  width: 95vw;
   background-color: #0f0a19;
   color: #8d8d8d;
   padding: 40px;
@@ -10,7 +11,6 @@
 
 .editor {
   margin-top: 3vh;
-  width: 45vw;
   height: 75vh;
 }
 
@@ -23,7 +23,6 @@
 .output-div {
   width: 45vw;
   height: 75vh;
-
 }
 
 .output-window {
