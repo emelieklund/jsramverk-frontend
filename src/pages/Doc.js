@@ -1,13 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
+import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
-import Icons from './Icons.js';
-import '../style/Doc.css';
 import { io } from "socket.io-client";
-import CodeEditor from './CodeEditor.js';
 
-//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net/posts";
-const AZURE="http://localhost:1337";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCode, faFloppyDisk, faTrashCan, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+
+import CodeEditor from './CodeEditor.js';
+import '../style/Doc.css';
+
+const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+//const AZURE="http://localhost:1337";
 
 function Doc() {
     // Get id from parameter
@@ -23,9 +26,12 @@ function Doc() {
     // Code mode
     const [codeMode, setCodeMode] = useState(false);
 
+    // Share document with collaborator
+    const [collaborator, setCollaborator] = useState("");
+
     // Fetch data from backend
     const getDocument = () => {
-        fetch(`${AZURE}/${documentID}`)
+        fetch(`${AZURE}/posts/${documentID}`)
         .then(res => res.json())
         .then(json => setDocument(json))
         .catch(error => console.error(error));
@@ -43,30 +49,68 @@ function Doc() {
         setContent(doc.content);
     }, [doc])
 
-    // const joinRoom = () => {
-    //     if (room !== "") {
-    //         socket.emit("join_room", room);
-    //     }
-    // };
-
     const socket = useRef(null);
 
     useEffect(() => {
         socket.current = io(AZURE);
 
+        socket.current.emit("join_room", documentID);
+
         socket.current.on("content", (data) => {
-            setContent(data);
+            setContent(data.content);
         });
 
         return () => {
             socket.current.disconnect();
         }
-    }, [socket]);
+
+        // eslint-disable-next-line
+    }, []);
+
+    // Submit updated data to backend
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        await axios.post(`${AZURE}/posts/update`, {
+            _id: documentID,
+            title: title,
+            content: content
+        });
+
+        window.location.reload(false);
+    }
+
+    // Share document with other user
+    const handleShare = async (e) => {
+        e.preventDefault();
+
+        await axios.post(`${AZURE}/posts/update_collaborator`, {
+            _id: documentID,
+            email: collaborator
+        });
+
+        window.location.reload(false);
+    }
+
+    // Delete from backend
+    const handleDelete = async (id, e) => {
+        e.preventDefault();
+
+        await axios.post(`${AZURE}/posts/delete/${id}`);
+
+        window.location.href = "/#";
+    }
 
     const handleContentChange = (e) => {
         const value = e.target.value;
 
-        socket.current.emit("content", value);
+        let data = {
+            _id: documentID,
+            title: title,
+            content: value
+        };
+
+        socket.current.emit("content", data);
     }
 
     const handleEditorMode = (e) => {
@@ -79,53 +123,86 @@ function Doc() {
         // save to database
     }
 
+    const shareForm = (
+        <form onSubmit={handleShare}>
+            <p>Share document</p>
+            <input
+                id="collaborator"
+                type="text"
+                name="collaborator"
+                placeholder="Add collaborator"
+                onChange={(e) => {setCollaborator(e.target.value)}}
+                required
+            />
+            <input type="submit" value="Submit" />
+        </form>
+    )
+
+    const titleDiv = (
+        <label htmlFor="title-input">
+            <input
+                data-testid="title-input"
+                id="title-input"
+                type="text"
+                name="title"
+                defaultValue={title}
+                onChange={(e) => {setTitle(e.target.value)}}
+            />
+        </label>
+    )
+
+    const icons = (
+        <div id="icons-div">
+            <div className="icon-div" onClick={(e) => handleEditorMode(e)} >
+                <FontAwesomeIcon icon={faCode} className="icon"/>
+                <p>Code mode</p>
+            </div>
+            <div className="icon-div" onClick={(e) => handleShare(e)} >
+                <FontAwesomeIcon icon={faUserPlus} className="icon"/>
+                <p>Share</p>
+            </div>
+            <div className="icon-div" onClick={(e) => handleSubmit(e)} >
+                <FontAwesomeIcon icon={faFloppyDisk} className="icon"/>
+                <p>Save</p>
+            </div>
+            <div className="icon-div" >
+                <FontAwesomeIcon icon={faTrashCan} className="icon" onClick={(e) => handleDelete(documentID, e)} data-testid="delete-button" />
+                <p>Delete</p>
+            </div>
+        </div>
+    )
+
+    const textArea = (
+        <textarea
+            id="content-input"
+            name="content"
+            value={content}
+            onChange={handleContentChange}
+            autoFocus
+            spellCheck="true"
+            //onChange={(e) => {setContent(e.target.value)}}
+        />
+    )
+
     if (codeMode === false) {
         return (
             <div className="doc-div" >
-                <button onClick={handleEditorMode} className="btn" >Switch to code mode</button>
                 <div className="upper-div" >
-                    <label htmlFor="title-input">
-                        <input
-                            data-testid="title-input"
-                            id="title-input"
-                            type="text"
-                            name="title"
-                            defaultValue={title}
-                            onChange={(e) => {setTitle(e.target.value)}}
-                        />
-                    </label>
-                    <Icons codeMode={false} documentID={documentID} title={title} content={content} />
+                    {titleDiv}
+                    {icons}
                 </div>
-                <label htmlFor="content-input"></label>
-                <textarea
-                    id="content-input"
-                    name="content"
-                    value={content}
-                    onChange={handleContentChange}
-                    autoFocus
-                    spellCheck="true"
-                    //onChange={(e) => {setContent(e.target.value)}}
-                ></textarea>
+                {textArea}
             </div>
         )
     } else {
         return (
-            <>
-                <button onClick={handleEditorMode} className="btn text-btn" >Switch to text mode</button>
+            <div className="doc-div" >
                 <div className="upper-div" >
-                    <label htmlFor="title-input">
-                        <input
-                            data-testid="title-input"
-                            id="title-input"
-                            type="text"
-                            name="title"
-                            defaultValue={title}
-                            onChange={(e) => {setTitle(e.target.value)}}
-                        />
-                    </label>
+                    {titleDiv}
+                    {icons}
                 </div>
                 <CodeEditor />
-            </>
+            </div>
         )
     }
 }
