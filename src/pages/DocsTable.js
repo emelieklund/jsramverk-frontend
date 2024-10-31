@@ -12,17 +12,18 @@ import TableRow from '@mui/material/TableRow';
 
 import '../style/DocsTable.css';
 
-//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net/posts";
-const AZURE="http://localhost:1337";
+const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+//const AZURE='http://localhost:1337';
 
 function DocsTable() {
     const [documents, setDocuments] = useState([]);
 
     // Fetch data from backend
     const getDocuments = () => {
-        fetch(AZURE)
+        fetch(`${AZURE}/posts/get_documents`)
         .then(res => res.json())
         .then(json => setDocuments(json))
+        .catch((error) => console.log(error))
     }
 
     useEffect(() => {
@@ -31,7 +32,7 @@ function DocsTable() {
 
     // Delete from backend
     const handleDelete = async (id) => {
-        await axios.post(`${AZURE}/delete/${id}`);
+        await axios.post(`${AZURE}/posts/delete/${id}`);
 
         window.location.reload(false);
     }
@@ -40,12 +41,14 @@ function DocsTable() {
         <div className="table-div" >
             <Table className="table" >
                 <TableHead>
-                    <TableCell></TableCell>
-                    <TableCell>Title</TableCell>
-                    <TableCell>Owner</TableCell>
-                    <TableCell>Coworkers</TableCell>
-                    <TableCell>Created</TableCell>
-                    <TableCell></TableCell>
+                    <TableRow>
+                        <TableCell></TableCell>
+                        <TableCell>Title</TableCell>
+                        <TableCell>Owner</TableCell>
+                        <TableCell>Coworkers</TableCell>
+                        <TableCell>Created</TableCell>
+                        <TableCell></TableCell>
+                    </TableRow>
                 </TableHead>
                 <TableBody>
                     {documents.map((data, i) => (
@@ -55,8 +58,8 @@ function DocsTable() {
                         >
                             <TableCell><FontAwesomeIcon icon={faFile} id="file-icon" /></TableCell>
                             <TableCell><Link to={`/doc/${data._id}`} >{data.title}</Link></TableCell>
-                            <TableCell>---</TableCell>
-                            <TableCell>---</TableCell>
+                            <TableCell>{data.owner}</TableCell>
+                            <TableCell>{data.allowed_users[0]}</TableCell>
                             <TableCell>---</TableCell>
                             <TableCell align="right"><FontAwesomeIcon icon={faTrashCan} id="trash-icon" onClick={() => handleDelete(data._id)} /></TableCell>
                         </TableRow>
