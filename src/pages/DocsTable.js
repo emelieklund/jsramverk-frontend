@@ -12,8 +12,8 @@ import TableRow from '@mui/material/TableRow';
 
 import '../style/DocsTable.css';
 
-const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-//const AZURE='http://localhost:1337';
+//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+const AZURE='http://localhost:1337';
 
 function DocsTable() {
     const [documents, setDocuments] = useState([]);
@@ -47,6 +47,7 @@ function DocsTable() {
                         <TableCell>Owner</TableCell>
                         <TableCell>Coworkers</TableCell>
                         <TableCell>Created</TableCell>
+                        <TableCell>Last updated</TableCell>
                         <TableCell></TableCell>
                     </TableRow>
                 </TableHead>
@@ -60,7 +61,8 @@ function DocsTable() {
                             <TableCell><Link to={`/doc/${data._id}`} >{data.title}</Link></TableCell>
                             <TableCell>{data.owner}</TableCell>
                             <TableCell>{data.allowed_users[0]}</TableCell>
-                            <TableCell>---</TableCell>
+                            <TableCell>{data.created}</TableCell>
+                            <TableCell>{data.last_updated}</TableCell>
                             <TableCell align="right"><FontAwesomeIcon icon={faTrashCan} id="trash-icon" onClick={() => handleDelete(data._id)} /></TableCell>
                         </TableRow>
                     ))}
