@@ -6,29 +6,32 @@ import AddNewDoc from './AddNewDoc.js';
 import DocsTable from './DocsTable.js';
 import '../style/Home.css';
 
-const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-//const AZURE="http://localhost:1337";
+//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+const AZURE="http://localhost:1337";
 
 function Home() {
     // Temporary
     const [loggedIn, setLoggedIn] = useState(false);
-
-    const [token, setToken] = useState("");
 
     // Used for login form
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     // Used when logged in
+    const [token, setToken] = useState("");
     const [signedInUser, setSignedInUser] = useState("");
 
+    // Message when login fails
     const [message, setMessage] = useState("");
 
     // Get token
     const getToken = () => {
-        fetch(`${AZURE}/auth/token`)
+        fetch(`${AZURE}/posts/token`)
         .then(res => res.json())
-        .then(json => setToken(json))
+        .then(json => (
+            setToken(json.token),
+            setSignedInUser(json.user)
+        ))
         .catch((error) => console.log(error))
     }
 
@@ -46,42 +49,40 @@ function Home() {
         });
 
         if (login) {
-            //console.log(login.data.user.email)
             if (login.data.message === "User successfully logged in") {
-                setLoggedIn(true);
                 setMessage(login.data.message);
-                //setSignedInUser(login.data.user.email)
-                document.cookie = `user=${login.data.user.email}; expires=Fri, 1 Nov 2024 23:59:59 GMT; path=/`;
-                //userCookie = document.cookie.split("; ").find((row) => row.startsWith("user"));
-                //setSignedInUser(document.cookie.split("; ").find((row) => row.startsWith("user")));
             }
         }
     }
 
     const handleSignOut = async () => {
-        await axios.post(`${AZURE}/auth/logout`);
-        setMessage("You've been logged out");
+        const signOut = await axios.post(`${AZURE}/auth/logout`);
+
+        setMessage(signOut.data.message);
     }
 
     useEffect(() => {
         getToken();
+
     }, [handleSignIn, handleSignOut])
 
     if (token !== "") {
         return (
             <div className="home-div" >
-                <h2>Welcome, {(document.cookie.split("; ").find((row) => row.startsWith("user"))).substring(5)}!</h2>
-                <p>{token}</p>
-                <button onClick={handleSignOut}>Sign out</button>
-                <AddNewDoc />
+                <h2>Welcome, {signedInUser}!</h2>
+                <div className="new-doc-div" >
+                    <AddNewDoc />
+                    <button onClick={handleSignOut} id="sign-out-btn">Sign out</button>
+                </div>
                 <DocsTable />
             </div>
         );
     } else {
         return (
             <div className="home-div" >
-                <Link to="users">Show all users</Link>
-                <p>{token}</p>
+                <Link to="users">
+                    <button id="new-user-btn">Show all users</button>
+                </Link>
                 <div className="sign-in-div" >
                     <form onSubmit={handleSignIn} id="sign-in-form">
                         <p>Sign in</p>
@@ -113,14 +114,6 @@ function Home() {
             </div>
         );
     }
-
-    // return (
-    //     <div className="home-div" >
-    //         <SignIn />
-    //         <AddNewDoc />
-    //         <DocsTable />
-    //     </div>
-    // );
 }
 
 export default Home;
