@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { io } from "socket.io-client";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,8 +9,8 @@ import { faCode, faFloppyDisk, faTrashCan, faUserPlus } from "@fortawesome/free-
 import CodeEditor from './CodeEditor.js';
 import '../style/Doc.css';
 
-const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-//const AZURE="http://localhost:1337";
+//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+const AZURE="http://localhost:1337";
 
 function Doc() {
     // Get id from parameter
@@ -25,9 +25,6 @@ function Doc() {
 
     // Code mode
     const [codeMode, setCodeMode] = useState(false);
-
-    // Share document with collaborator
-    const [collaborator, setCollaborator] = useState("");
 
     // Fetch data from backend
     const getDocument = () => {
@@ -80,18 +77,6 @@ function Doc() {
         window.location.reload(false);
     }
 
-    // Share document with other user
-    const handleShare = async (e) => {
-        e.preventDefault();
-
-        await axios.post(`${AZURE}/posts/update_collaborator`, {
-            _id: documentID,
-            email: collaborator
-        });
-
-        window.location.reload(false);
-    }
-
     // Delete from backend
     const handleDelete = async (id, e) => {
         e.preventDefault();
@@ -123,21 +108,6 @@ function Doc() {
         // save to database
     }
 
-    const shareForm = (
-        <form onSubmit={handleShare}>
-            <p>Share document</p>
-            <input
-                id="collaborator"
-                type="text"
-                name="collaborator"
-                placeholder="Add collaborator"
-                onChange={(e) => {setCollaborator(e.target.value)}}
-                required
-            />
-            <input type="submit" value="Submit" />
-        </form>
-    )
-
     const titleDiv = (
         <label htmlFor="title-input">
             <input
@@ -157,10 +127,16 @@ function Doc() {
                 <FontAwesomeIcon icon={faCode} className="icon"/>
                 <p>Code mode</p>
             </div>
-            <div className="icon-div" onClick={(e) => handleShare(e)} >
+            <div className="icon-div">
+                <Link to={`/share/${documentID}`} >
+                    <FontAwesomeIcon icon={faUserPlus} className="icon"/>
+                    <p>Share</p>
+                </Link>
+            </div>
+            {/* <div className="icon-div" onClick={(e) => handleShare(e)} >
                 <FontAwesomeIcon icon={faUserPlus} className="icon"/>
                 <p>Share</p>
-            </div>
+            </div> */}
             <div className="icon-div" onClick={(e) => handleSubmit(e)} >
                 <FontAwesomeIcon icon={faFloppyDisk} className="icon"/>
                 <p>Save</p>
@@ -180,7 +156,6 @@ function Doc() {
             onChange={handleContentChange}
             autoFocus
             spellCheck="true"
-            //onChange={(e) => {setContent(e.target.value)}}
         />
     )
 
