@@ -3,8 +3,8 @@ import React from 'react';
 import { useState } from 'react';
 import '../style/CreateUser.css';
 
-const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-//const AZURE="http://localhost:1337";
+//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+const AZURE="http://localhost:1337";
 
 function CreateUser() {
     const [username, setUsername] = useState("");
@@ -17,7 +17,7 @@ function CreateUser() {
         e.preventDefault();
 
         if (password === repeatedPassword) {
-            await axios.post(`${AZURE}/users`, {
+            await axios.post(`${AZURE}/users/register_user`, {
                 email: username,
                 password: password
             })
@@ -26,6 +26,7 @@ function CreateUser() {
                     setMessage(error.response.data.message)
                 }
             });
+            setMessage("User created")
 
         } else {
             setMessage("Passwords don't match")
