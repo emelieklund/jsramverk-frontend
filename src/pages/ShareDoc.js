@@ -1,60 +1,50 @@
 import axios from 'axios';
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-import { useState } from 'react';
 import '../style/ShareDoc.css';
 
 //const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
 const AZURE="http://localhost:1337";
 
 function ShareDoc() {
-    // Get id from parameter
+    // Get document id from parameter
     const params = useParams();
     const documentID = params.id;
 
-    const [collaborator, setCollaborator] = useState("");
+    const [email, setEmail] = useState("");
 
-    // Message when share fails
-    const [message, setMessage] = useState("test");
-
-    const handleSendInvite = async (e) => {
-        e.preventDefault();
-
+    const postData = async () => {
+        // Add collaborator
         await axios.post(`${AZURE}/posts/update_collaborator`, {
             _id: documentID,
-            email: collaborator
+            email: email
         })
         .catch(function (error) {
             if (error.response) {
                 console.log(error.response.data.message);
-                setMessage(error.response.data.message)
             }
         });
 
-        // Refresh page
-        //window.location.reload(false);
+        // Send invite via email
+        axios.post(`${AZURE}/sendgrid/invite_user`, {
+            email: email
+        });
+
+        window.location.reload(false);
     }
-
     return (
-        <div className="home-div" >
-            <div className="share-doc-div" >
-                <form onSubmit={handleSendInvite}>
-                    <p>Enter email to share document with:</p>
-                    <input
-                        id="share-doc"
-                        type="text"
-                        name="share-doc"
-                        placeholder="Email"
-                        onChange={(e) => {setCollaborator(e.target.value)}}
-                        required
-                    />
-                    <input type="submit" value="Submit" />
-                </form>
-                <p className="message">{message}</p>
-            </div>
+        <div className="share-doc-div">
+            <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e)=>setEmail(e.target.value)}
+            />
+            <button id="send-invite-btn" onClick={() => postData()} >
+                Send invite
+            </button>
         </div>
-    );
+    )
 }
-
 export default ShareDoc;
