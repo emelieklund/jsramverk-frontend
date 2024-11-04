@@ -52,6 +52,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   margin: 0;
   cursor: pointer;
 
@@ -93,8 +94,4 @@
 
 .btn:hover {
   box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #242424 0 -3px 0 inset;
-}
-
-.comment {
-  color: red;
 }
