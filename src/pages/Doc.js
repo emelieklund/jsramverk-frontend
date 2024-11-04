@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { io } from "socket.io-client";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode, faFloppyDisk, faTrashCan, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
 import CodeEditor from './CodeEditor.js';
+import ShareDoc from './ShareDoc.js';
 import '../style/Doc.css';
 
 //const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
@@ -16,6 +17,8 @@ function Doc() {
     // Get id from parameter
     const params = useParams();
     const documentID = params.id;
+
+    const [showShareForm, setShowShareForm] = useState(false);
 
     const [doc, setDocument] = useState([]);
 
@@ -108,6 +111,14 @@ function Doc() {
         // save to database
     }
 
+    const handleShowForm = (e) => {
+        if (showShareForm === false) {
+            setShowShareForm(true);
+        } else {
+            setShowShareForm(false);
+        }
+    }
+
     const titleDiv = (
         <label htmlFor="title-input">
             <input
@@ -127,16 +138,10 @@ function Doc() {
                 <FontAwesomeIcon icon={faCode} className="icon"/>
                 <p>Code mode</p>
             </div>
-            <div className="icon-div">
-                <Link to={`/share/${documentID}`} >
-                    <FontAwesomeIcon icon={faUserPlus} className="icon"/>
-                    <p>Share</p>
-                </Link>
-            </div>
-            {/* <div className="icon-div" onClick={(e) => handleShare(e)} >
+            <div className="icon-div" onClick={(e) => handleShowForm(e)}>
                 <FontAwesomeIcon icon={faUserPlus} className="icon"/>
                 <p>Share</p>
-            </div> */}
+            </div>
             <div className="icon-div" onClick={(e) => handleSubmit(e)} >
                 <FontAwesomeIcon icon={faFloppyDisk} className="icon"/>
                 <p>Save</p>
@@ -166,6 +171,7 @@ function Doc() {
                     {titleDiv}
                     {icons}
                 </div>
+                { showShareForm && (<ShareDoc />) }
                 {textArea}
             </div>
         )
