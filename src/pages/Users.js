@@ -31,7 +31,6 @@ function Users() {
 
     // Delete from backend
     const handleDelete = async (email) => {
-        console.log(email)
         await axios.post(`${AZURE}/users/delete/${email}`);
 
         //window.location.reload(false);
