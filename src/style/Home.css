@@ -45,7 +45,7 @@ a:hover {
   width: 70%;
   height: 40px;
   padding: 12px 20px;
-  margin: 8px 0 0 37px;
+  margin: 50px 0 0 37px;
   display: inline-block;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -88,4 +88,22 @@ input[type=submit] {
 
 input[type=submit]:hover {
   background-color: #373ebf;
+}
+
+#deregister-btn {
+  width: 70%;
+  height: 40px;
+  padding: 12px 20px;
+  margin: 10px 0 0 37px;
+  display: inline-block;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #d32b2b;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+#deregister-btn:hover {
+  background-color: #b62525;
 }
