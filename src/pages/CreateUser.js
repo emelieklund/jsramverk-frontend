@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../style/CreateUser.css';
 
 //const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
@@ -26,10 +27,13 @@ function CreateUser() {
                     setMessage(error.response.data.message)
                 }
             });
-            setMessage("User created")
+            setMessage("User created");
+            setUsername("");
+            setPassword("");
+            setRepeatedPassword("");
 
         } else {
-            setMessage("Passwords don't match")
+            setMessage("Passwords don't match");
         }
     }
 
@@ -44,6 +48,7 @@ function CreateUser() {
                             type="text"
                             name="username"
                             placeholder="Username"
+                            value={username}
                             onChange={(e) => {setUsername(e.target.value)}}
                             required
                         />
@@ -53,6 +58,7 @@ function CreateUser() {
                             type="password"
                             name="password"
                             placeholder="Password"
+                            value={password}
                             onChange={(e) => {setPassword(e.target.value)}}
                             required
                         />
@@ -62,6 +68,7 @@ function CreateUser() {
                             type="password"
                             name="repeat-password"
                             placeholder="Repeat password"
+                            value={repeatedPassword}
                             onChange={(e) => {setRepeatedPassword(e.target.value)}}
                             required
                         />
