@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { io } from "socket.io-client";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCode, faFloppyDisk, faTrashCan, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCode, faFileLines, faFloppyDisk, faTrashCan, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
 import CodeEditor from './CodeEditor.js';
 import ShareDoc from './ShareDoc.js';
@@ -18,13 +18,14 @@ function Doc() {
     const params = useParams();
     const documentID = params.id;
 
-    const [showShareForm, setShowShareForm] = useState(false);
-
     const [doc, setDocument] = useState([]);
 
     // Title and content, used when updating document
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+
+    // Shows share doc form when set to true
+    const [showShareForm, setShowShareForm] = useState(false);
 
     // Code mode
     const [codeMode, setCodeMode] = useState(false);
@@ -47,6 +48,7 @@ function Doc() {
     useEffect(() => {
         setTitle(doc.title);
         setContent(doc.content);
+        setCodeMode(doc.code_mode);
     }, [doc])
 
     const socket = useRef(null);
@@ -89,6 +91,7 @@ function Doc() {
         window.location.href = "/#";
     }
 
+    // Handle content when changed
     const handleContentChange = (e) => {
         const value = e.target.value;
 
@@ -101,21 +104,22 @@ function Doc() {
         socket.current.emit("content", data);
     }
 
-    const handleEditorMode = (e) => {
-        if (codeMode === false) {
-            setCodeMode(true);
-        } else {
-            setCodeMode(false);
-        }
-
-        // save to database
-    }
-
+    // Shows/hides share doc form
     const handleShowForm = (e) => {
         if (showShareForm === false) {
             setShowShareForm(true);
         } else {
             setShowShareForm(false);
+        }
+    }
+
+    const handleCodeMode = async (e) => {
+        if (codeMode === false) {
+            await axios.post(`${AZURE}/posts/activate_code/${documentID}`);
+            setCodeMode(true);
+        } else {
+            await axios.post(`${AZURE}/posts/deactivate_code/${documentID}`);
+            setCodeMode(false);
         }
     }
 
@@ -132,12 +136,27 @@ function Doc() {
         </label>
     )
 
-    const icons = (
-        <div id="icons-div">
-            <div className="icon-div" onClick={(e) => handleEditorMode(e)} >
+    let codeModeIcon;
+
+    if (codeMode === false) {
+        codeModeIcon = (
+            <div className="icon-div" onClick={(e) => handleCodeMode(e)} >
                 <FontAwesomeIcon icon={faCode} className="icon"/>
                 <p>Code mode</p>
             </div>
+        )
+    } else {
+        codeModeIcon = (
+            <div className="icon-div" onClick={(e) => handleCodeMode(e)} >
+                <FontAwesomeIcon icon={faFileLines} className="icon"/>
+                <p>Text mode</p>
+            </div>
+        )
+    }
+
+    const icons = (
+        <div id="icons-div">
+            {codeModeIcon}
             <div className="icon-div" onClick={(e) => handleShowForm(e)}>
                 <FontAwesomeIcon icon={faUserPlus} className="icon"/>
                 <p>Share</p>
