@@ -47,7 +47,7 @@ function DocsTable() {
                         <TableCell>Owner</TableCell>
                         <TableCell>Coworkers</TableCell>
                         <TableCell>Created</TableCell>
-                        <TableCell>Last updated</TableCell>
+                        <TableCell>Last update</TableCell>
                         <TableCell></TableCell>
                     </TableRow>
                 </TableHead>
@@ -62,7 +62,7 @@ function DocsTable() {
                             <TableCell>{data.owner}</TableCell>
                             <TableCell>{data.allowed_users[0]}</TableCell>
                             <TableCell>{data.created}</TableCell>
-                            <TableCell>{data.last_updated}</TableCell>
+                            <TableCell>{data.last_update}</TableCell>
                             <TableCell align="right"><FontAwesomeIcon icon={faTrashCan} id="trash-icon" onClick={() => handleDelete(data._id)} /></TableCell>
                         </TableRow>
                     ))}
