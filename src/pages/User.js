@@ -10,9 +10,6 @@ import '../style/Home.css';
 const AZURE="http://localhost:1337";
 
 function User() {
-    // Used for login form
-    const [username, setUsername] = useState("test");
-
     // Used when logged in
     const [token, setToken] = useState("");
     const [signedInUser, setSignedInUser] = useState("");
@@ -30,21 +27,10 @@ function User() {
     const handleSignOut = async (e) => {
         e.preventDefault();
 
-        const signOut = await axios.post(`${AZURE}/auth/logout`);
+        await axios.post(`${AZURE}/auth/logout`);
 
         window.location.reload(false);
-
-        //setMessage(signOut.data.message);
     };
-
-    // const handleSignOut = useCallback(async (e) => {
-    //     e.preventDefault();
-
-    //     const signOut = await axios.post(`${AZURE}/auth/logout`);
-    //     //getToken();
-
-    //     //setMessage(signOut.data.message);
-    // }, []);
 
     useEffect(() => {
         getToken();
@@ -54,10 +40,12 @@ function User() {
     const handleDeregister = async (e) => {
         e.preventDefault();
 
-        await axios.post(`${AZURE}/users/deregister_user`, { email: username })
+        await axios.post(`${AZURE}/users/deregister_user`, { email: signedInUser })
         .catch((error) => {
             console.log(error)
         });
+
+        alert("User was successfully deregistered!");
 
         window.location.reload(false);
     }
