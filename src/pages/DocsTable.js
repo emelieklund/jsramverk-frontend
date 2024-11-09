@@ -15,12 +15,16 @@ import '../style/DocsTable.css';
 //const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
 const AZURE='http://localhost:1337';
 
-function DocsTable() {
+function DocsTable({token}) {
     const [documents, setDocuments] = useState([]);
 
     // Fetch data from backend
     const getDocuments = () => {
-        fetch(`${AZURE}/posts/get_documents`)
+        fetch(`${AZURE}/posts/get_documents`, {
+            headers: {
+                'x-access-token': token
+            }
+        })
         .then(res => res.json())
         .then(json => setDocuments(json))
         .catch((error) => console.log(error))
@@ -28,11 +32,17 @@ function DocsTable() {
 
     useEffect(() => {
         getDocuments();
+
+        // eslint-disable-next-line
     }, [])
 
     // Delete from backend
     const handleDelete = async (id) => {
-        await axios.post(`${AZURE}/posts/delete/${id}`);
+        await axios.post(`${AZURE}/posts/delete/${id}`, {}, {
+            headers: {
+                'x-access-token': token
+            }
+        });
 
         window.location.reload(false);
     }
@@ -58,7 +68,7 @@ function DocsTable() {
                             className="row"
                         >
                             <TableCell><FontAwesomeIcon icon={faFile} id="file-icon" /></TableCell>
-                            <TableCell><Link to={`/doc/${data._id}`} >{data.title}</Link></TableCell>
+                            <TableCell><Link to={`/doc/${data._id}/${token}`} >{data.title}</Link></TableCell>
                             <TableCell>{data.owner}</TableCell>
                             <TableCell>{data.allowed_users[0]}</TableCell>
                             <TableCell>{data.created}</TableCell>

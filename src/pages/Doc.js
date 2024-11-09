@@ -17,6 +17,7 @@ function Doc() {
     // Get id from parameter
     const params = useParams();
     const documentID = params.id;
+    const token = params.token;
 
     const [doc, setDocument] = useState([]);
 
@@ -32,7 +33,11 @@ function Doc() {
 
     // Fetch data from backend
     const getDocument = () => {
-        fetch(`${AZURE}/posts/${documentID}`)
+        fetch(`${AZURE}/posts/${documentID}`, {
+            headers: {
+                'x-access-token': token
+            }
+        })
         .then(res => res.json())
         .then(json => setDocument(json))
         .catch(error => console.error(error));
@@ -44,11 +49,12 @@ function Doc() {
         // eslint-disable-next-line
     }, []);
 
-    // Update title and content when "document" is changed
+    // Update title, content and code mode when "doc" is changed
     useEffect(() => {
         setTitle(doc.title);
         setContent(doc.content);
         setCodeMode(doc.code_mode);
+
     }, [doc])
 
     const socket = useRef(null);
@@ -77,6 +83,10 @@ function Doc() {
             _id: documentID,
             title: title,
             content: content
+        }, {
+            headers: {
+                'x-access-token': token
+            }
         });
 
         window.location.reload(false);
@@ -86,7 +96,11 @@ function Doc() {
     const handleDelete = async (id, e) => {
         e.preventDefault();
 
-        await axios.post(`${AZURE}/posts/delete/${id}`);
+        await axios.post(`${AZURE}/posts/delete/${id}`, {}, {
+            headers: {
+                'x-access-token': token
+            }
+        });
 
         window.location.href = "/#";
     }
@@ -115,10 +129,18 @@ function Doc() {
 
     const handleCodeMode = async (e) => {
         if (codeMode === false) {
-            await axios.post(`${AZURE}/posts/activate_code/${documentID}`);
+            await axios.post(`${AZURE}/posts/activate_code/${documentID}`, {}, {
+                headers: {
+                    'x-access-token': token
+                }
+            });
             setCodeMode(true);
         } else {
-            await axios.post(`${AZURE}/posts/deactivate_code/${documentID}`);
+            await axios.post(`${AZURE}/posts/deactivate_code/${documentID}`, {}, {
+                headers: {
+                    'x-access-token': token
+                }
+            });
             setCodeMode(false);
         }
     }
@@ -190,7 +212,7 @@ function Doc() {
                     {titleDiv}
                     {icons}
                 </div>
-                { showShareForm && (<ShareDoc />) }
+                { showShareForm && (<ShareDoc token={token} />) }
                 {textArea}
             </div>
         )

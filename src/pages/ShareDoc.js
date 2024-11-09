@@ -7,7 +7,7 @@ import '../style/ShareDoc.css';
 //const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
 const AZURE="http://localhost:1337";
 
-function ShareDoc() {
+function ShareDoc({token}) {
     // Get document id from parameter
     const params = useParams();
     const documentID = params.id;
@@ -19,6 +19,10 @@ function ShareDoc() {
         await axios.post(`${AZURE}/posts/update_collaborator`, {
             _id: documentID,
             email: email
+        }, {
+            headers: {
+                'x-access-token': token
+            }
         })
         .catch(function (error) {
             if (error.response) {
@@ -27,8 +31,10 @@ function ShareDoc() {
         });
 
         // Send invite via email
-        axios.post(`${AZURE}/sendgrid/invite_user`, {
-            email: email
+        axios.post(`${AZURE}/sendgrid/invite_user`, { email: email }, {
+            headers: {
+                'x-access-token': token
+            }
         });
 
         window.location.reload(false);

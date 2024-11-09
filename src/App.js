@@ -13,7 +13,7 @@ function App() {
         <HashRouter>
             <Routes>
                 <Route index element={<Home />} />
-                <Route path="/doc/:id" element={<Doc />} />
+                <Route path="/doc/:id/:token" element={<Doc />} />
                 <Route path="/create-user" element={<CreateUser />} />
                 <Route path="/users" element={<Users />} />
                 <Route path="/share/:id" element={<ShareDoc />} />

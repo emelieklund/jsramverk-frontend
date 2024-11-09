@@ -6,7 +6,7 @@ import '../style/AddNewDoc.css';
 //const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
 const AZURE="http://localhost:1337";
 
-function AddNewDoc() {
+function AddNewDoc({token}) {
     const [title, setTitle] = useState("");
 
     const handleSubmit = async (e) => {
@@ -15,6 +15,10 @@ function AddNewDoc() {
         await axios.post(`${AZURE}/posts`, {
             title: title,
             content: ""
+        }, {
+            headers: {
+                'x-access-token': token
+            }
         })
         .catch(function (error) {
             if (error.response) {

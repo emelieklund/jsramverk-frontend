@@ -54,7 +54,7 @@ function Home() {
 
     if (token && token !== "") {
         return (
-            <User />
+            <User token={token}/>
         );
     } else {
         return (
