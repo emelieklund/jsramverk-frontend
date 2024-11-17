@@ -11,15 +11,15 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-const AZURE="http://localhost:1337";
+//const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+const BASE_URL="http://localhost:1337";
 
 function Users() {
     const [users, setUsers] = useState([]);
 
     // Fetch data from backend
     const getUsers = () => {
-        fetch(`${AZURE}/users`)
+        fetch(`${BASE_URL}/users`)
         .then(res => res.json())
         .then(json => setUsers(json))
         .catch((error) => console.log(error))
@@ -31,7 +31,7 @@ function Users() {
 
     // Delete from backend
     const handleDelete = async (email) => {
-        await axios.post(`${AZURE}/users/delete/${email}`);
+        await axios.post(`${BASE_URL}/users/delete/${email}`);
 
         //window.location.reload(false);
     }

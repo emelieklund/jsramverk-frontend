@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom';
 
 import '../style/ShareDoc.css';
 
-//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-const AZURE="http://localhost:1337";
+//const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+const BASE_URL="http://localhost:1337";
 
 function ShareDoc({token}) {
     // Get document id from parameter
@@ -16,7 +16,7 @@ function ShareDoc({token}) {
 
     const postData = async () => {
         // Add collaborator
-        await axios.post(`${AZURE}/posts/update_collaborator`, {
+        await axios.post(`${BASE_URL}/posts/update_collaborator`, {
             _id: documentID,
             email: email
         }, {
@@ -31,7 +31,7 @@ function ShareDoc({token}) {
         });
 
         // Send invite via email
-        axios.post(`${AZURE}/sendgrid/invite_user`, { email: email }, {
+        axios.post(`${BASE_URL}/sendgrid/invite_user`, { email: email }, {
             headers: {
                 'x-access-token': token
             }

@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../style/CreateUser.css';
 
-//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-const AZURE="http://localhost:1337";
+//const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+const BASE_URL="http://localhost:1337";
 
 function CreateUser() {
     const [username, setUsername] = useState("");
@@ -18,7 +18,7 @@ function CreateUser() {
         e.preventDefault();
 
         if (password === repeatedPassword) {
-            await axios.post(`${AZURE}/users/register_user`, {
+            await axios.post(`${BASE_URL}/users/register_user`, {
                 email: username,
                 password: password
             })

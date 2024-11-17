@@ -12,15 +12,15 @@ import TableRow from '@mui/material/TableRow';
 
 import '../style/DocsTable.css';
 
-//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-const AZURE='http://localhost:1337';
+//const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+const BASE_URL='http://localhost:1337';
 
 function DocsTable({token}) {
     const [documents, setDocuments] = useState([]);
 
     // Fetch data from backend
     const getDocuments = () => {
-        fetch(`${AZURE}/posts/get_documents`, {
+        fetch(`${BASE_URL}/posts/get_documents`, {
             headers: {
                 'x-access-token': token
             }
@@ -38,7 +38,7 @@ function DocsTable({token}) {
 
     // Delete from backend
     const handleDelete = async (id) => {
-        await axios.post(`${AZURE}/posts/delete/${id}`, {}, {
+        await axios.post(`${BASE_URL}/posts/delete/${id}`, {}, {
             headers: {
                 'x-access-token': token
             }

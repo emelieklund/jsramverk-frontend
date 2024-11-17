@@ -5,8 +5,8 @@ import axios from 'axios';
 import User from './User.js';
 import '../style/Home.css';
 
-//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-const AZURE="http://localhost:1337";
+//const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+const BASE_URL="http://localhost:1337";
 
 function Home() {
     // Used for login form
@@ -21,7 +21,7 @@ function Home() {
 
     // Get token
     const getToken = () => {
-        fetch(`${AZURE}/posts/token`)
+        fetch(`${BASE_URL}/posts/token`)
         .then(res => res.json())
         .then(json => (
             [setToken(json.token)]
@@ -32,7 +32,7 @@ function Home() {
     const handleSignIn = async (e) => {
         e.preventDefault();
 
-        const login = await axios.post(`${AZURE}/auth/login`, {
+        const login = await axios.post(`${BASE_URL}/auth/login`, {
             email: username,
             password: password
         })

@@ -10,8 +10,8 @@ import CodeEditor from './CodeEditor.js';
 import ShareDoc from './ShareDoc.js';
 import '../style/Doc.css';
 
-//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-const AZURE="http://localhost:1337";
+//const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+const BASE_URL="http://localhost:1337";
 
 function Doc() {
     // Get id from parameter
@@ -33,7 +33,7 @@ function Doc() {
 
     // Fetch data from backend
     const getDocument = () => {
-        fetch(`${AZURE}/posts/${documentID}`, {
+        fetch(`${BASE_URL}/posts/${documentID}`, {
             headers: {
                 'x-access-token': token
             }
@@ -60,7 +60,7 @@ function Doc() {
     const socket = useRef(null);
 
     useEffect(() => {
-        socket.current = io(AZURE);
+        socket.current = io(BASE_URL);
 
         socket.current.emit("join_room", documentID);
 
@@ -79,7 +79,7 @@ function Doc() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        await axios.post(`${AZURE}/posts/update`, {
+        await axios.post(`${BASE_URL}/posts/update`, {
             _id: documentID,
             title: title,
             content: content
@@ -96,7 +96,7 @@ function Doc() {
     const handleDelete = async (id, e) => {
         e.preventDefault();
 
-        await axios.post(`${AZURE}/posts/delete/${id}`, {}, {
+        await axios.post(`${BASE_URL}/posts/delete/${id}`, {}, {
             headers: {
                 'x-access-token': token
             }
@@ -129,14 +129,14 @@ function Doc() {
 
     const handleCodeMode = async (e) => {
         if (codeMode === false) {
-            await axios.post(`${AZURE}/posts/activate_code/${documentID}`, {}, {
+            await axios.post(`${BASE_URL}/posts/activate_code/${documentID}`, {}, {
                 headers: {
                     'x-access-token': token
                 }
             });
             setCodeMode(true);
         } else {
-            await axios.post(`${AZURE}/posts/deactivate_code/${documentID}`, {}, {
+            await axios.post(`${BASE_URL}/posts/deactivate_code/${documentID}`, {}, {
                 headers: {
                     'x-access-token': token
                 }

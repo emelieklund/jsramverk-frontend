@@ -3,8 +3,8 @@ import React from 'react';
 import { useState } from 'react';
 import '../style/AddNewDoc.css';
 
-//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-const AZURE="http://localhost:1337";
+//const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+const BASE_URL="http://localhost:1337";
 
 function AddNewDoc({token}) {
     const [title, setTitle] = useState("");
@@ -12,7 +12,7 @@ function AddNewDoc({token}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        await axios.post(`${AZURE}/posts`, {
+        await axios.post(`${BASE_URL}/posts`, {
             title: title,
             content: ""
         }, {
