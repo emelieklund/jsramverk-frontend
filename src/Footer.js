@@ -4,7 +4,8 @@ import './style/Footer.css';
 function Footer() {
     return (
         <footer>
-            <p className="copyright">&copy; Emil Folino</p>
+            <p className="copyright">Anna Johannisson and Emelie Eklund</p>
+            <p>Blekinge Tekniska Högskola</p>
         </footer>
     );
 }
