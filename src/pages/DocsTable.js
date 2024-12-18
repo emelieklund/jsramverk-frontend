@@ -12,10 +12,10 @@ import TableRow from '@mui/material/TableRow';
 
 import '../style/DocsTable.css';
 
-//const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-const BASE_URL='http://localhost:1337';
+const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+//const BASE_URL='http://localhost:1337';
 
-function DocsTable({token}) {
+function DocsTable({token, user}) {
     const [documents, setDocuments] = useState([]);
 
     // Fetch data from backend
@@ -37,14 +37,18 @@ function DocsTable({token}) {
     }, [])
 
     // Delete from backend
-    const handleDelete = async (id) => {
-        await axios.post(`${BASE_URL}/posts/delete/${id}`, {}, {
-            headers: {
-                'x-access-token': token
-            }
-        });
+    const handleDelete = async (id, owner) => {
+        if (owner !== user) {
+            alert("You cannot delete this document since you are not the owner")
+        } else {
+            await axios.post(`${BASE_URL}/posts/delete/${id}`, {}, {
+                headers: {
+                    'x-access-token': token
+                }
+            });
 
-        window.location.reload(false);
+            window.location.reload(false);
+        }
     }
 
     return (
@@ -73,7 +77,7 @@ function DocsTable({token}) {
                             <TableCell>{data.allowed_users[0]}</TableCell>
                             <TableCell>{data.created}</TableCell>
                             <TableCell>{data.last_update}</TableCell>
-                            <TableCell align="right"><FontAwesomeIcon icon={faTrashCan} id="trash-icon" onClick={() => handleDelete(data._id)} /></TableCell>
+                            <TableCell align="right"><FontAwesomeIcon icon={faTrashCan} id="trash-icon" onClick={() => handleDelete(data._id, data.owner)} /></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

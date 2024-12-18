@@ -5,8 +5,8 @@ import AddNewDoc from './AddNewDoc.js';
 import DocsTable from './DocsTable.js';
 import '../style/Home.css';
 
-//const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-const AZURE="http://localhost:1337";
+const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+//const AZURE="http://localhost:1337";
 
 function User({token}) {
     // Shows email of signed in user
@@ -43,18 +43,22 @@ function User({token}) {
     const handleDeregister = async (e) => {
         e.preventDefault();
 
-        await axios.post(`${AZURE}/users/deregister_user`, { email: signedInUser }, {
-            headers: {
-                'x-access-token': token
-            }
-        })
-        .catch((error) => {
-            console.log(error)
-        });
+        let answer = window.confirm(`Do you really want to delete the account of ${signedInUser}?`);
 
-        alert("User was successfully deregistered!");
+        if (answer) {
+            await axios.post(`${AZURE}/users/deregister_user`, { email: signedInUser }, {
+                headers: {
+                    'x-access-token': token
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+            });
 
-        window.location.reload(false);
+            alert("User was successfully deregistered!");
+
+            window.location.reload(false);
+        }
     }
 
     return (
@@ -65,7 +69,7 @@ function User({token}) {
                 <button onClick={handleSignOut} id="sign-out-btn">Sign out</button>
                 <button onClick={handleDeregister} id="deregister-btn" >Deregister</button>
             </div>
-            <DocsTable token={token} />
+            <DocsTable token={token} user={signedInUser} />
         </div>
     );
 }

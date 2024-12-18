@@ -5,12 +5,12 @@ import axios from 'axios';
 import User from './User.js';
 import '../style/Home.css';
 
-//const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-const BASE_URL="http://localhost:1337";
+const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+//const BASE_URL="http://localhost:1337";
 
 function Home() {
     // Used for login form
-    const [username, setUsername] = useState("test");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     // Used when logged in
@@ -29,6 +29,7 @@ function Home() {
         .catch((error) => console.log("Error: ", error))
     }
 
+    // eslint-disable-next-line
     const handleSignIn = async (e) => {
         e.preventDefault();
 
@@ -45,6 +46,8 @@ function Home() {
         if (login) {
             setMessage(login.data.message);
         }
+
+        console.log(token)
     };
 
     useEffect(() => {

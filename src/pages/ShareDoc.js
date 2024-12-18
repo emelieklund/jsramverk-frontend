@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom';
 
 import '../style/ShareDoc.css';
 
-//const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-const BASE_URL="http://localhost:1337";
+const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+//const BASE_URL="http://localhost:1337";
 
 function ShareDoc({token}) {
     // Get document id from parameter
@@ -39,6 +39,7 @@ function ShareDoc({token}) {
 
         window.location.reload(false);
     }
+
     return (
         <div className="share-doc-div">
             <input
