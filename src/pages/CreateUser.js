@@ -32,6 +32,8 @@ function CreateUser() {
             setPassword("");
             setRepeatedPassword("");
 
+            window.location.href = "https://www.student.bth.se/~emek22/editor";
+
         } else {
             setMessage("Passwords don't match");
         }
