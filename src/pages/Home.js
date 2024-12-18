@@ -5,8 +5,7 @@ import axios from 'axios';
 import User from './User.js';
 import '../style/Home.css';
 
-const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-//const BASE_URL="http://localhost:1337";
+import BASE_URL from './base_url.js';
 
 function Home() {
     // Used for login form
@@ -45,9 +44,8 @@ function Home() {
 
         if (login) {
             setMessage(login.data.message);
+            // setToken(login.data.token)
         }
-
-        console.log(token)
     };
 
     useEffect(() => {

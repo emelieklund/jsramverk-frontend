@@ -12,8 +12,7 @@ import TableRow from '@mui/material/TableRow';
 
 import '../style/DocsTable.css';
 
-const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-//const BASE_URL='http://localhost:1337';
+import BASE_URL from './base_url.js';
 
 function DocsTable({token, user}) {
     const [documents, setDocuments] = useState([]);

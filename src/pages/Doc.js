@@ -7,10 +7,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode, faFileLines, faFloppyDisk, faTrashCan, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
 import CodeEditor from './CodeEditor.js';
+import Editor from '@monaco-editor/react';
+
 import ShareDoc from './ShareDoc.js';
 import '../style/Doc.css';
 
-const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
+import BASE_URL from './base_url.js';
+
+//const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
 //const BASE_URL="http://localhost:1337";
 
 function Doc() {
@@ -127,6 +131,54 @@ function Doc() {
         }
     }
 
+    // Code Editor
+    const editorRef = useRef();
+    const [output, setOutput] = useState("");
+
+    const onMount = (editor) => {
+        editorRef.current = editor;
+        editor.focus();
+    }
+
+    let decodedOutput = "default";
+
+    const runCode = async () => {
+        const sourceCode = editorRef.current.getValue() || "default";
+
+        if (!sourceCode) return;
+        try {
+            let data = {
+                code: btoa(sourceCode)
+            };
+
+            fetch("https://execjs.emilfolino.se/code", {
+                body: JSON.stringify(data),
+                headers: {
+                    'content-type': 'application/json'
+                },
+                method: 'POST'
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function(result) {
+                decodedOutput = atob(result.data);
+                setOutput(decodedOutput);
+            });
+
+        } catch (error) {}
+    };
+
+    const handleCodeChange = (value) => {
+        let data = {
+            _id: documentID,
+            title: title,
+            content: value
+        };
+
+        socket.current.emit("content", data);
+    }
+
     const handleCodeMode = async (e) => {
         if (codeMode === false) {
             await axios.post(`${BASE_URL}/posts/activate_code/${documentID}`, {}, {
@@ -145,6 +197,7 @@ function Doc() {
         }
     }
 
+    // Components
     const titleDiv = (
         <label htmlFor="title-input">
             <input
@@ -194,17 +247,6 @@ function Doc() {
         </div>
     )
 
-    const textArea = (
-        <textarea
-            id="content-input"
-            name="content"
-            value={content}
-            onChange={handleContentChange}
-            autoFocus
-            spellCheck="true"
-        />
-    )
-
     if (codeMode === false) {
         return (
             <div className="doc-div" >
@@ -213,7 +255,14 @@ function Doc() {
                     {icons}
                 </div>
                 { showShareForm && (<ShareDoc token={token} />) }
-                {textArea}
+                <textarea
+                    id="content-input"
+                    name="content"
+                    value={content}
+                    onChange={handleContentChange}
+                    autoFocus
+                    spellCheck="true"
+                />
             </div>
         )
     } else {
@@ -223,7 +272,29 @@ function Doc() {
                     {titleDiv}
                     {icons}
                 </div>
-                <CodeEditor />
+                { showShareForm && (<ShareDoc token={token} />) }
+                <div className="code-div" >
+                    <div className="input-div" >
+                        <button id="run-button" onClick={runCode} >Run Code</button>
+                        <Editor
+                            className="editor"
+                            theme="vs-dark"
+                            defaultLanguage="javascript"
+                            autoFocus
+                            onMount={onMount}
+                            value={content}
+                            onChange={(value) => handleCodeChange(value)}
+                        />
+                    </div>
+                    <div className="output-div" >
+                        <p>Output</p>
+
+                        <div className="output-window" >
+                            <p>{output}</p>
+                        </div>
+                    </div>
+                </div>
+                {/* <CodeEditor documentID={documentID} title={title} content={content} token={token} /> */}
             </div>
         )
     }

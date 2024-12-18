@@ -5,8 +5,7 @@ import AddNewDoc from './AddNewDoc.js';
 import DocsTable from './DocsTable.js';
 import '../style/Home.css';
 
-const AZURE="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-//const AZURE="http://localhost:1337";
+import BASE_URL from './base_url.js';
 
 function User({token}) {
     // Shows email of signed in user
@@ -14,7 +13,7 @@ function User({token}) {
 
     // Get signed in user
     const getUser = () => {
-        fetch(`${AZURE}/posts/token`)
+        fetch(`${BASE_URL}/posts/token`)
         .then(res => res.json())
         .then(json => (
             setSignedInUser(json.user)
@@ -26,7 +25,7 @@ function User({token}) {
     const handleSignOut = async (e) => {
         e.preventDefault();
 
-        await axios.post(`${AZURE}/auth/logout`, {}, {
+        await axios.post(`${BASE_URL}/auth/logout`, {}, {
             headers: {
                 'x-access-token': token
             }
@@ -46,7 +45,7 @@ function User({token}) {
         let answer = window.confirm(`Do you really want to delete the account of ${signedInUser}?`);
 
         if (answer) {
-            await axios.post(`${AZURE}/users/deregister_user`, { email: signedInUser }, {
+            await axios.post(`${BASE_URL}/users/deregister_user`, { email: signedInUser }, {
                 headers: {
                     'x-access-token': token
                 }

@@ -1,11 +1,9 @@
 import axios from 'axios';
 import React from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import '../style/CreateUser.css';
 
-const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-//const BASE_URL="http://localhost:1337";
+import BASE_URL from './base_url.js';
 
 function CreateUser() {
     const [username, setUsername] = useState("");
