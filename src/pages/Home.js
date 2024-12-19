@@ -26,7 +26,7 @@ function Home() {
             });
 
             localStorage.setItem("token", response.data.token);
-            localStorage.setItem("user", response.data.user);
+            localStorage.setItem("user", username);
             setMessage(response.data.message);
 
             //window.location.reload(false);

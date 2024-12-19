@@ -22,7 +22,7 @@ function DocsTable() {
 
     // Fetch data from backend
     const getDocuments = () => {
-        fetch(`${BASE_URL}/posts/get_documents`, {
+        fetch(`${BASE_URL}/posts/get_documents/${user}`, {
             headers: {
                 'x-access-token': token
             }
