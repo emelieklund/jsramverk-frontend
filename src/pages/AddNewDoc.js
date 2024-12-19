@@ -8,13 +8,15 @@ import BASE_URL from './base_url.js';
 function AddNewDoc() {
     const [title, setTitle] = useState("");
     const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         await axios.post(`${BASE_URL}/posts`, {
             title: title,
-            content: ""
+            content: "",
+            user: user
         }, {
             headers: {
                 'x-access-token': token

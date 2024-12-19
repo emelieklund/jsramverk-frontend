@@ -29,7 +29,6 @@ function Home() {
             localStorage.setItem("user", username);
             setMessage(response.data.message);
 
-            //window.location.reload(false);
         } catch (error) {
             if (error.response) {
                 setMessage(error.response.data.message)

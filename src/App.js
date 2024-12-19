@@ -17,7 +17,6 @@ function App() {
                 <Route index element={<Home />} />
                 <Route path="/doc/:id" element={<Doc />} />
                 <Route path="/create-user" element={<CreateUser />} />
-                <Route path="/users" element={<Users />} />
                 <Route path="/share/:id" element={<ShareDoc />} />
                 <Route path="*" element={<NoPage />} />
             </Routes>
