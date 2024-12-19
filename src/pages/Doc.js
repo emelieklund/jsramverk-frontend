@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { io } from "socket.io-client";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouseUser, faCode, faFileLines, faFloppyDisk, faTrashCan, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faHouseUser, faCode, faFileLines, faFloppyDisk, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
 import Editor from '@monaco-editor/react';
 
@@ -93,19 +93,6 @@ function Doc() {
         });
 
         window.location.reload(false);
-    }
-
-    // Delete from backend
-    const handleDelete = async (id, e) => {
-        e.preventDefault();
-
-        await axios.post(`${BASE_URL}/posts/delete/${id}`, {}, {
-            headers: {
-                'x-access-token': token
-            }
-        });
-
-        window.location.href = "/#";
     }
 
     // Handle content when changed
@@ -239,10 +226,6 @@ function Doc() {
                 <FontAwesomeIcon icon={faFloppyDisk} className="icon"/>
                 <p>Save</p>
             </div>
-            <div className="icon-div" >
-                <FontAwesomeIcon icon={faTrashCan} className="icon" onClick={(e) => handleDelete(documentID, e)} data-testid="delete-button" />
-                <p>Delete</p>
-            </div>
         </div>
     )
 
@@ -254,7 +237,7 @@ function Doc() {
                     {titleDiv}
                     {icons}
                 </div>
-                { showShareForm && (<ShareDoc token={token} />) }
+                { showShareForm && (<ShareDoc />) }
                 <textarea
                     id="content-input"
                     name="content"
@@ -273,7 +256,7 @@ function Doc() {
                     {titleDiv}
                     {icons}
                 </div>
-                { showShareForm && (<ShareDoc token={token} />) }
+                { showShareForm && (<ShareDoc />) }
                 <div className="code-div" >
                     <div className="input-div" >
                         <button id="run-button" onClick={runCode} >Run Code</button>

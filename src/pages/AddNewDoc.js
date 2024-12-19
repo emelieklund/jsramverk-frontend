@@ -28,7 +28,6 @@ function AddNewDoc() {
             }
         });
 
-        // Refresh page
         window.location.reload(false);
     }
 

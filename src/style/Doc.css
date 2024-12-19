@@ -21,6 +21,7 @@
   background: none;
   border: none;
   font-size: 20px;
+  margin-left: -100px;
 }
 
 #content-input {
@@ -39,7 +40,7 @@
 }
 
 #icons-div {
-  width: 250px;
+  width: 200px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

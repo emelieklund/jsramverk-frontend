@@ -41,7 +41,7 @@ function DocsTable() {
     // Delete from backend
     const handleDelete = async (id, owner) => {
         if (owner !== user) {
-            alert("You cannot delete this document since you are not the owner")
+            alert("You cannot delete this document since you are not the owner");
         } else {
             await axios.post(`${BASE_URL}/posts/delete/${id}`, {}, {
                 headers: {

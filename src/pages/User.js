@@ -15,12 +15,6 @@ function User() {
     const handleSignOut = async (e) => {
         e.preventDefault();
 
-        // await axios.post(`${BASE_URL}/auth/logout`, {}, {
-        //     headers: {
-        //         'x-access-token': token
-        //     }
-        // });
-
         localStorage.removeItem("token");
         localStorage.removeItem("user");
 

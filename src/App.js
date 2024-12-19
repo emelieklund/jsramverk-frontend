@@ -4,7 +4,6 @@ import { Routes, Route, HashRouter } from "react-router-dom";
 import Doc from './pages/Doc.js';
 import CreateUser from './pages/CreateUser.js';
 import Home from './pages/Home.js';
-import Users from './pages/Users.js';
 import ShareDoc from './pages/ShareDoc.js';
 import NoPage from './pages/NoPage.js';
 
