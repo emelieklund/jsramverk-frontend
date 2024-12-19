@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -12,50 +12,36 @@ function Home() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    // Used when logged in
-    const [token, setToken] = useState("");
-
     // Message when login fails
     const [message, setMessage] = useState("");
-
-    // Get token
-    const getToken = () => {
-        fetch(`${BASE_URL}/posts/token`)
-        .then(res => res.json())
-        .then(json => (
-            [setToken(json.token)]
-        ))
-        .catch((error) => console.log("Error: ", error))
-    }
 
     // eslint-disable-next-line
     const handleSignIn = async (e) => {
         e.preventDefault();
 
-        const login = await axios.post(`${BASE_URL}/auth/login`, {
-            email: username,
-            password: password
-        })
-        .catch((error) => {
+        try {
+            const response = await axios.post(`${BASE_URL}/auth/login`, {
+                email: username,
+                password: password
+            });
+
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("user", response.data.user);
+            setMessage(response.data.message);
+
+            //window.location.reload(false);
+        } catch (error) {
             if (error.response) {
                 setMessage(error.response.data.message)
+            } else {
+                setMessage("An unexpected error occurred. Please try again.");
             }
-        });
-
-        if (login) {
-            setMessage(login.data.message);
-            // setToken(login.data.token)
         }
     };
 
-    useEffect(() => {
-        getToken();
-
-    }, [handleSignIn])
-
-    if (token && token !== "") {
+    if (localStorage.getItem("token")) {
         return (
-            <User token={token}/>
+            <User />
         );
     } else {
         return (

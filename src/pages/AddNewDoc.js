@@ -5,8 +5,9 @@ import '../style/AddNewDoc.css';
 
 import BASE_URL from './base_url.js';
 
-function AddNewDoc({token}) {
+function AddNewDoc() {
     const [title, setTitle] = useState("");
+    const token = localStorage.getItem("token");
 
     const handleSubmit = async (e) => {
         e.preventDefault();

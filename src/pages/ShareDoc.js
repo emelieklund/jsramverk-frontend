@@ -6,12 +6,14 @@ import '../style/ShareDoc.css';
 
 import BASE_URL from './base_url.js';
 
-function ShareDoc({token}) {
+function ShareDoc() {
     // Get document id from parameter
     const params = useParams();
     const documentID = params.id;
 
     const [email, setEmail] = useState("");
+
+    const token = localStorage.getItem("token");
 
     const postData = async () => {
         // Add collaborator

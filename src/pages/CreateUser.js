@@ -1,6 +1,7 @@
 import axios from 'axios';
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from "react-router";
+
 import '../style/CreateUser.css';
 
 import BASE_URL from './base_url.js';
@@ -12,25 +13,25 @@ function CreateUser() {
 
     const [message, setMessage] = useState("");
 
+    let navigate = useNavigate();
+
     const handleRegister = async (e) => {
         e.preventDefault();
 
         if (password === repeatedPassword) {
-            await axios.post(`${BASE_URL}/users/register_user`, {
-                email: username,
-                password: password
-            })
-            .catch(function (error) {
+            try {
+                const response = await axios.post(`${BASE_URL}/users/register_user`, {
+                    email: username,
+                    password: password
+                });
+
+                alert(response.data.message);
+                navigate(-1);
+            } catch (error) {
                 if (error.response) {
                     setMessage(error.response.data.message)
                 }
-            });
-            setMessage("User created");
-            setUsername("");
-            setPassword("");
-            setRepeatedPassword("");
-
-            window.location.href = "https://www.student.bth.se/~emek22/editor";
+            }
 
         } else {
             setMessage("Passwords don't match");

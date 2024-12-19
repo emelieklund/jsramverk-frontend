@@ -35,7 +35,6 @@ function Users() {
         //window.location.reload(false);
     }
 
-
     return (
         <div className="home-div" >
             <div className="table-div" >

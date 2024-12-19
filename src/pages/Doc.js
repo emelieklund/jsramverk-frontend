@@ -1,27 +1,26 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { io } from "socket.io-client";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCode, faFileLines, faFloppyDisk, faTrashCan, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faHouseUser, faCode, faFileLines, faFloppyDisk, faTrashCan, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
-import CodeEditor from './CodeEditor.js';
 import Editor from '@monaco-editor/react';
 
 import ShareDoc from './ShareDoc.js';
 import '../style/Doc.css';
+import '../style/CodeEditor.css';
 
 import BASE_URL from './base_url.js';
-
-//const BASE_URL="https://jsramverk-anja22-d3hwepg4gzbuejg2.northeurope-01.azurewebsites.net";
-//const BASE_URL="http://localhost:1337";
 
 function Doc() {
     // Get id from parameter
     const params = useParams();
     const documentID = params.id;
-    const token = params.token;
+    const navigate = useNavigate();
+
+    const token = localStorage.getItem("token");
 
     const [doc, setDocument] = useState([]);
 
@@ -251,6 +250,7 @@ function Doc() {
         return (
             <div className="doc-div" >
                 <div className="upper-div" >
+                    <FontAwesomeIcon onClick={() => {navigate(-1)}} icon={faHouseUser} className="home-icon"/>
                     {titleDiv}
                     {icons}
                 </div>
@@ -269,6 +269,7 @@ function Doc() {
         return (
             <div className="doc-div" >
                 <div className="upper-div" >
+                    <FontAwesomeIcon onClick={() => {navigate(-1)}} icon={faHouseUser} className="home-icon"/>
                     {titleDiv}
                     {icons}
                 </div>
@@ -294,7 +295,6 @@ function Doc() {
                         </div>
                     </div>
                 </div>
-                {/* <CodeEditor documentID={documentID} title={title} content={content} token={token} /> */}
             </div>
         )
     }

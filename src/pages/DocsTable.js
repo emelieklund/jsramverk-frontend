@@ -14,8 +14,11 @@ import '../style/DocsTable.css';
 
 import BASE_URL from './base_url.js';
 
-function DocsTable({token, user}) {
+function DocsTable() {
     const [documents, setDocuments] = useState([]);
+
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
 
     // Fetch data from backend
     const getDocuments = () => {
@@ -71,7 +74,7 @@ function DocsTable({token, user}) {
                             className="row"
                         >
                             <TableCell><FontAwesomeIcon icon={faFile} id="file-icon" /></TableCell>
-                            <TableCell><Link to={`/doc/${data._id}/${token}`} >{data.title}</Link></TableCell>
+                            <TableCell><Link to={`/doc/${data._id}`} >{data.title}</Link></TableCell>
                             <TableCell>{data.owner}</TableCell>
                             <TableCell>{data.allowed_users[0]}</TableCell>
                             <TableCell>{data.created}</TableCell>
